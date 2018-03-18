@@ -8,64 +8,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="#">灯具进销存管理系统</a>
-
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">首页<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">用户管理</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">系统管理</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">退出</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<nav th:replace="template::navbar"></nav>
 <div class="container-fluid">
     <nav class="navbar container">
         <div class="btn-group">
             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#userInput">
                 增加用户
             </button>
-            <button type="button" class="btn btn-outline-primary">
+            <button type="button" class="btn btn-outline-primary" id="delUserButton">
                 删除用户
             </button>
         </div>
     </nav>
     <div class="container">
-        <form id="tableDiv" method="post">
-            <table class="table">
-                <tr>
-                    <td></td>
-                    <td>ID</td>
-                    <td>姓名</td>
-                    <td>性别</td>
-                    <td>年龄</td>
-                    <td>登录密码</td>
-                    <td>Tel Number</td>
-                </tr>
-                <!--/*@thymesVar id="userList" type="java"*/-->
-                <tr th:each="user:${userList}">
-                    <!--/*@thymesVar id="user" type="com.myproject.demo.pojo.User"*/-->
-                    <th:block th:if="${user.exist}">
-                    <td><input type="checkbox" th:value="${user.id}"/></td>
-                    <td><a href="#" th:text="${user.id}" data-toggle="modal" data-target="#userInput" th:attr="data-id=${user.id}"></a></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.sex}"></td>
-                    <td th:text="2018-${user.age}"></td>
-                    <td th:text="${user.pass}"></td>
-                    <td th:text="${user.telnum}"></td>
-                    </th:block>
-                </tr>
-            </table>
-        </form>
+        <table class="table">
+            <tr>
+                <td></td>
+                <td>ID</td>
+                <td>姓名</td>
+                <td>性别</td>
+                <td>年龄</td>
+                <td>登录密码</td>
+                <td>Tel Number</td>
+            </tr>
+            <!--/*@thymesVar id="userList" type="java.util.List"*/-->
+            <tr th:each="user:${userList}">
+                <!--/*@thymesVar id="user" type="com.myproject.demo.pojo.User"*/-->
+                <th:block th:if="${user.exist}">
+                <td><input class="choiceBox" type="checkbox" th:value="${user.id}"/></td>
+                <td><a href="#" th:text="${user.id}" data-toggle="modal" data-target="#userInput" th:attr="data-id=${user.id}"></a></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.sex}"></td>
+                <td th:text="2018-${user.age}"></td>
+                <td th:text="${user.pass}"></td>
+                <td th:text="${user.telnum}"></td>
+                </th:block>
+            </tr>
+        </table>
     </div>
 </div>
 <script th:src="@{js/jquery.js}"></script>
@@ -81,8 +60,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="" name="inputForm" action="addUser" method="post" autocomplete="off">
-                <input type="hidden" name="user.id" id="userHiddenId">
+            <!--/*@thymesVar id="user" type="com.myproject.demo.pojo.User"*/-->
+            <form id="userForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post" autocomplete="off">
+                <input type="hidden" th:field="*{id}" id="userHiddenId">
                 <div class="modal-body col-12">
                     <div class="form-group row">
                         <label class="col-2 col-form-label">ID：</label>
@@ -93,19 +73,19 @@
                     <div class="form-group row">
                         <label class="col-2 col-form-label">姓名：</label>
                         <div class="col-10">
-                            <input class="form-control" id="userName" name="user.name" placeholder="Name">
+                            <input class="form-control" id="userName" th:field="*{name}" placeholder="Name">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-2 col-form-label">密码：</label>
                         <div class="col-10">
-                            <input class="form-control" id="userPass" name="user.pass" placeholder="Password">
+                            <input class="form-control" id="userPass" th:field="*{pass}" placeholder="Password">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-2 col-form-label">性别：</label>
                         <div class="col-10">
-                            <select class="form-control" id="sexSelect" name="user.sex">
+                            <select class="form-control" id="sexSelect" th:field="*{sex}">
                                 <option value="男">男</option>
                                 <option value="女">女</option>
                             </select>
@@ -114,13 +94,13 @@
                     <div class="form-group row">
                         <label class="col-2 col-form-label">年龄：</label>
                         <div class="col-10">
-                            <input class="form-control" id="userAge" name="user.age" placeholder="Age">
+                            <input class="form-control" id="userAge" th:field="*{age}" placeholder="Age">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-2 col-form-label">部门：</label>
                         <div class="col-10">
-                            <select class="form-control" id="deptSelect" name="user.type" onchange="updateRanks(this.value)">
+                            <select class="form-control" id="deptSelect" th:field="*{type}" onchange="updateRanks(this.value)">
                                 <option value="0">仓库管理员</option>
                                 <option value="1">进货销售人员</option>
                                 <option value="2">财务人员</option>
@@ -132,7 +112,7 @@
                     <div class="form-group row">
                         <label class="col-2 col-form-label">权限：</label>
                         <div class="col-10">
-                            <select class="form-control" id="rankSelect" name="user.rank">
+                            <select class="form-control" id="rankSelect" th:field="*{rank}">
                                 <option value="0">默认权限</option>
                             </select>
                         </div>
@@ -140,12 +120,12 @@
                     <div class="form-group row">
                         <label class="col-2 col-form-label">电话：</label>
                         <div class="col-10">
-                            <input class="form-control" id="userTel" name="user.telnum" placeholder="Tel Number">
+                            <input class="form-control" id="userTel" th:field="*{telnum}" placeholder="Tel Number">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="submit" class="btn btn-primary" id="modal-submit">保存</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                 </div>
             </form>
@@ -153,56 +133,59 @@
     </div>
 </div>
 </body>
-</html>
 <script type="text/javascript">
-    $('#userInput').on('show.bs.modal', function (event) {
-        var idfrom = $(event.relatedTarget);
-        var id = idfrom.data("id");
+    $("#userInput").on("show.bs.modal", function (event) {
+        var id = $(event.relatedTarget).data("id");
         if (id == null) {
-
-            var xmlhttp2 = new XMLHttpRequest();
-            xmlhttp2.open("GET","./user/getNewId", false);
-            xmlhttp2.send();
-            if(xmlhttp2.readyState == 4 && xmlhttp2.status == 200)
-            {
-                var id = xmlhttp2.responseText;
-                document.getElementById("userId").value = id;
-                document.getElementById("userHiddenId").value = id;
-            }
-            document.getElementById("userName").value = "";
-            document.getElementById("userPass").value = "";
-            document.getElementById("userAge").value = "";
-            document.getElementById("userTel").value = "";
-            document.getElementById("sexSelect").value = "男";
-            document.getElementById("deptSelect").value = 0;
-            document.getElementById("rankSelect").value = 0;
+            $("#modal-title").text("增加用户");
+            $("#userForm").attr("action", "/user/add");
+            $.get("./user/getNewId", function (data) {
+                    $("#userId").val(data);
+                    $("#userHiddenId").val(data);
+            });
+            $("#userName").val("");
+            $("#userPass").val("");
+            $("#userAge").val("");
+            $("#userTel").val("");
+            $("#sexSelect").val("男");
+            $("#deptSelect").val(0);
+            $("#rankSelect").val(0);
             return;
         }
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET","./user/"+id, false);
-        xmlhttp.send();
-        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
-        {
-            var json = eval('('+xmlhttp.responseText+')');
-            document.getElementById("modal-title").innerHTML = "修改用户";
-            document.getElementById("userId").value = json.id;
-            document.getElementById("userHiddenId").value = json.id;
-            document.getElementById("userName").value = json.name;
-            document.getElementById("userPass").value = json.pass;
-            document.getElementById("userAge").value = 2018 - json.age;
-            document.getElementById("userTel").value = json.telnum;
-            document.getElementById("sexSelect").value = json.sex;
-            document.getElementById("deptSelect").value = json.type;
+        $.getJSON("./user/"+id, function (json) {
+            $("#modal-title").text("修改用户");
+            $("#userForm").attr("action", "/user/update");
+            $("#userId").val(json.id);
+            $("#userHiddenId").val(json.id);
+            $("#userName").val(json.name);
+            $("#userPass").val(json.pass);
+            $("#userAge").val(2018 - json.age);
+            $("#userTel").val(json.telnum);
+            $("#sexSelect").val(json.sex);
+            $("#deptSelect").val(json.type);
             updateRanks(json.type);
-            document.getElementById("rankSelect").value = json.rank;
-        }
+            $("#rankSelect").val(json.rank);
+        });
     });
+    function getChoice() {
+        var choices = new Array();
+        var i = 0;
+        $(":checkbox").each(function () {
+            if ($(this).is(":checked")) {
+                choices[i] = $(this).attr("value");
+                i++;
+            }
+        });
+        return choices;
+        //$.post("./user/delete", {"userChoices": choices}, function(){});
+    }
     function updateRanks(dept) {
         if(dept == 1) {
-            document.getElementById("rankSelect").innerHTML="<option value='0'>普通进货销售人员</option><option value='1'>进货销售经理</option>";
+            $("#rankSelect").html("<option value='0'>普通进货销售人员</option><option value='1'>进货销售经理</option>");
         }else if(dept == 2) {
-            document.getElementById("rankSelect").innerHTML="<option value='0'>普通财务人员</option><option value='1'>财务经理</option>";
+            $("#rankSelect").html("<option value='0'>普通财务人员</option><option value='1'>财务经理</option>");
         }
-        else document.getElementById("rankSelect").innerHTML="<option value='0'>默认权限</option>";
+        else $("#rankSelect").html("<option value='0'>默认权限</option>");
     }
 </script>
+</html>

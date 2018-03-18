@@ -29,4 +29,15 @@ public interface UserMapper {
     @ResultType(Integer.class)
     @Select("SELECT Count(*) FROM SystemUser")
     int getUserNum();
+
+    @Insert("INSERT INTO SystemUser(SUId, SUName, SUPwd, SUSex, SUBirth, SUDept, SURank, SUTel, SUIsExist) " +
+            "VALUES(#{id}, #{name}, #{pass}, #{sex}, #{age}, #{type}, #{rank}, #{telnum}, #{exist})")
+    void addUser(User user);
+
+    @Update("UPDATE SystemUser SET SUName=#{name}, SUPwd=#{pass}, SUSex=#{sex}, SUBirth=#{age}, " +
+            "SUDept=#{type}, SURank=#{rank}, SUTel=#{telnum} WHERE SUId=#{id}")
+    void updateUser(User user);
+
+    @Update("UPDATE SystemUser SET SUIsExist=False WHERE SUId=#{id}")
+    void deleteUser(User user);
 }
