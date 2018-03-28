@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
+    <mapping>
+        <class-a>com.myproject.demo.vo.UserVO</class-a>
+        <class-b>com.myproject.demo.pojo.User</class-b>
+        <field>
+            <a>id</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>name</a>
+            <b>name</b>
+        </field>
+        <field>
+            <a>pass</a>
+            <b>pass</b>
+        </field>
+        <field>
+            <a>sex</a>
+            <b>sex</b>
+        </field>
+        <field>
+            <a>telnum</a>
+            <b>telnum</b>
+        </field>
+        <field>
+            <a>rank</a>
+            <b>rank</b>
+        </field>
+        <field>
+            <a>type</a>
+            <b>type</b>
+        </field>
+    </mapping>
+</mappings>
