@@ -1,7 +1,8 @@
 package com.myproject.demo.controller;
 
 import com.myproject.demo.mapper.UserMapper;
-import com.myproject.demo.pojo.User;
+import com.myproject.demo.service.UserService;
+import com.myproject.demo.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -16,33 +17,30 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/{id}")
     @ResponseBody()
-    public User getUserById(@PathVariable("id") String id) {
-        User user = userMapper.getUserById(id);
-        return user;
+    public UserVO getUserById(@PathVariable("id") String id) {
+        return userService.getUserById(id);
     }
 
     @RequestMapping("/getNewId")
     @ResponseBody()
     public String getNewUserId() {
-        String id = String.format("%04d", userMapper.getUserNum() + 1);
-        return id;
+        return userService.getNewId();
     }
 
     @RequestMapping("/add")
-    public String addUser(@ModelAttribute(value="user")User user) {
-        user.setExist(true);
-        user.setAge(2018-user.getAge());
-        userMapper.addUser(user);
+    public String addUser(@ModelAttribute(value="user")UserVO user) {
+        userService.addUser(user);
         return "redirect:/index";
     }
 
     @RequestMapping("/update")
-    public String updateUser(@ModelAttribute(value="user")User user) {
-        user.setAge(2018-user.getAge());
-        userMapper.updateUser(user);
+    public String updateUser(@ModelAttribute(value="user")UserVO user) {
+        userService.updateUser(user);
         return "redirect:/index";
     }
 

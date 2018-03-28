@@ -1,7 +1,8 @@
 package com.myproject.demo.controller;
 
-import com.myproject.demo.mapper.UserMapper;
 import com.myproject.demo.pojo.User;
+import com.myproject.demo.service.UserService;
+import com.myproject.demo.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -16,13 +17,13 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @RequestMapping(value={"/","/index"}, method = RequestMethod.GET)
     public String indexLoad(Model m) {
-        List<User> userList = userMapper.getAllUsers();
+        List<UserVO> userList = userService.getUsers();
         m.addAttribute("userList", userList);
-        m.addAttribute("user", new User());
+        m.addAttribute("user", new UserVO());
         return "index";
     }
 }
