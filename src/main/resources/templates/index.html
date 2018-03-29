@@ -33,16 +33,14 @@
             </tr>
             <!--/*@thymesVar id="userList" type="java.util.List"*/-->
             <tr th:each="user:${userList}">
-                <!--/*@thymesVar id="user" type="com.myproject.demo.pojo.User"*/-->
-                <th:block th:if="${user.exist}">
+                <!--/*@thymesVar id="user" type="com.myproject.demo.vo.UserVO"*/-->
                 <td><input class="choiceBox" type="checkbox" th:value="${user.id}"/></td>
                 <td><a href="#" th:text="${user.id}" data-toggle="modal" data-target="#userInput" th:attr="data-id=${user.id}"></a></td>
                 <td th:text="${user.name}"></td>
                 <td th:text="${user.sex}"></td>
-                <td th:text="2018-${user.age}"></td>
+                <td th:text="${user.birthYear}"></td>
                 <td th:text="${user.pass}"></td>
                 <td th:text="${user.telnum}"></td>
-                </th:block>
             </tr>
         </table>
     </div>
@@ -60,7 +58,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!--/*@thymesVar id="user" type="com.myproject.demo.pojo.User"*/-->
+            <!--/*@thymesVar id="user" type="com.myproject.demo.vo.UserVO"*/-->
             <form id="userForm" action="#" th:action="@{/user/add}" th:object="${user}" method="post" autocomplete="off">
                 <input type="hidden" th:field="*{id}" id="userHiddenId">
                 <div class="modal-body col-12">
@@ -94,7 +92,7 @@
                     <div class="form-group row">
                         <label class="col-2 col-form-label">年龄：</label>
                         <div class="col-10">
-                            <input class="form-control" id="userAge" th:field="*{age}" placeholder="Age">
+                            <input class="form-control" id="userAge" th:field="*{birthYear}" placeholder="Age">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -159,7 +157,7 @@
             $("#userHiddenId").val(json.id);
             $("#userName").val(json.name);
             $("#userPass").val(json.pass);
-            $("#userAge").val(2018 - json.age);
+            $("#userAge").val(json.birthYear);
             $("#userTel").val(json.telnum);
             $("#sexSelect").val(json.sex);
             $("#deptSelect").val(json.type);
